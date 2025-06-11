@@ -14,44 +14,9 @@
 - 支持实时拍照识别垃圾类型
 - 支持从相册选择图片进行识别
 - 显示多个可能的垃圾类别及其置信度
-- 适配小米14等新型号手机
 - 增强的错误处理机制，防止应用崩溃
 
-## 使用方法
 
-### 1. 训练模型
-
-1. 确保已安装必要的Python库：
-   ```
-   pip install tensorflow numpy matplotlib
-   ```
-
-2. 运行`garbage_classification_model.ipynb`笔记本，训练垃圾分类模型。
-
-3. 训练完成后，将生成以下文件：
-   - `garbage_classification_model.h5`: Keras模型文件
-   - `garbage_classification_model.tflite`: TensorFlow Lite模型文件
-   - `garbage_classification_model_quantized.tflite`: 量化后的TensorFlow Lite模型文件（用于Android应用）
-   - `class_names.txt`: 类别名称文件
-
-### 2. 配置Android应用
-
-1. 将`garbage_classification_model_quantized.tflite`和`class_names.txt`文件复制到Android项目的`app/src/main/assets/`目录下。
-
-2. 如果`assets`目录不存在，请创建它：
-   ```
-   mkdir -p app/src/main/assets
-   ```
-
-### 3. 运行Android应用
-
-1. 在Android Studio中打开项目。
-
-2. 构建并运行应用。
-
-3. 授予应用相机和存储权限。
-
-4. 使用应用拍照或从相册选择图片进行垃圾类型识别。
 
 ## 数据集
 
