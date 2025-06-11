@@ -11,7 +11,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+//import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
         // 请求必要权限
         requestCameraPermission()
         
-        enableEdgeToEdge()
+        // enableEdgeToEdge() - 移除此函数调用，因为当前库版本不支持
         setContent {
             FinalworkTheme {
                 GarbageClassificationApp(garbageClassifier, cameraExecutor)
@@ -178,7 +178,7 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
             
             if (isCameraMode) {
                 Text(
-                    text = "请拍照或从相册选择图片进行垃圾分类识别",
+                    text = "请拍照或从相册选择图片进行垃圾分类识别\n可识别：有害垃圾、厨余垃圾、其他垃圾、可回收物",
                     fontSize = 14.sp,
                     color = Color.Gray,
                     textAlign = TextAlign.Center,
@@ -266,7 +266,7 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
                                     .padding(vertical = 4.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(
+    Text(
                                     text = result.label,
                                     fontSize = 16.sp
                                 )
@@ -289,9 +289,9 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
                                         .fillMaxWidth(result.confidence)
                                         .height(8.dp)
                                         .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
-                                )
-                            }
-                            
+    )
+}
+
                             Spacer(modifier = Modifier.height(8.dp))
                         }
                     }

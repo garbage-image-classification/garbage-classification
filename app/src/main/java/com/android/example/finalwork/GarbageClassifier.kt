@@ -32,21 +32,25 @@ class GarbageClassifier(private val context: Context) {
         
         // 默认类别，用于在加载标签失败时使用
         private val DEFAULT_LABELS = listOf(
-            "cardboard", "glass", "metal", "paper", "plastic", "trash"
+            "Harmful", "Kitchen", "Other", "Recyclable"
         )
     }
 
     init {
         try {
+            Log.d(TAG, "开始初始化分类器")
             loadModel()
             loadLabels()
             isModelLoaded = true
+            Log.d(TAG, "分类器初始化成功")
         } catch (e: IOException) {
-            Log.e(TAG, "初始化分类器失败", e)
+            Log.e(TAG, "初始化分类器失败: ${e.message}", e)
+            e.printStackTrace()
             // 使用默认标签
             classLabels = DEFAULT_LABELS
         } catch (e: Exception) {
-            Log.e(TAG, "发生未知错误", e)
+            Log.e(TAG, "发生未知错误: ${e.message}", e)
+            e.printStackTrace()
             // 使用默认标签
             classLabels = DEFAULT_LABELS
         }
@@ -55,17 +59,19 @@ class GarbageClassifier(private val context: Context) {
     @Throws(IOException::class)
     private fun loadModel() {
         try {
+            Log.d(TAG, "开始加载模型: $MODEL_NAME")
             val assetFileDescriptor = context.assets.openFd(MODEL_NAME)
             val fileInputStream = FileInputStream(assetFileDescriptor.fileDescriptor)
             val fileChannel = fileInputStream.channel
             val startOffset = assetFileDescriptor.startOffset
             val declaredLength = assetFileDescriptor.declaredLength
+            Log.d(TAG, "模型文件大小: ${declaredLength / 1024} KB")
             val modelBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
             
             // 创建Interpreter
             val options = Interpreter.Options().apply {
                 setNumThreads(4) // 使用多线程
-                setUseNNAPI(true) // 尝试使用神经网络API加速
+                setUseNNAPI(false) // 暂时禁用神经网络API加速，可能导致兼容性问题
             }
             
             interpreter = Interpreter(modelBuffer, options)
@@ -129,7 +135,11 @@ class GarbageClassifier(private val context: Context) {
             val outputBuffer = Array(1) { FloatArray(classLabels.size) }
             
             // 运行推理
-            interpreter?.run(byteBuffer, outputBuffer)
+            if (interpreter == null) {
+                Log.e(TAG, "解释器为空，无法进行推理")
+                throw RuntimeException("解释器为空")
+            }
+            interpreter!!.run(byteBuffer, outputBuffer)
             
             // 处理结果
             return getTopKProbability(outputBuffer[0])
