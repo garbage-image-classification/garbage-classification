@@ -12,7 +12,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 //import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -138,9 +137,9 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
     
     val imageCapture = remember { ImageCapture.Builder().build() }
     
-    // 用于从相册选择图片的启动器
+    // 用于从相册选择图片的启动器 - 使用GetContent替代PickVisualMedia
     val pickImageLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia()
+        contract = ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let {
             try {
@@ -266,7 +265,7 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
                                     .padding(vertical = 4.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-    Text(
+                                Text(
                                     text = result.label,
                                     fontSize = 16.sp
                                 )
@@ -289,8 +288,8 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
                                         .fillMaxWidth(result.confidence)
                                         .height(8.dp)
                                         .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
-    )
-}
+                                )
+                            }
 
                             Spacer(modifier = Modifier.height(8.dp))
                         }
@@ -347,9 +346,8 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
                         onClick = {
-                            pickImageLauncher.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                            )
+                            // 使用GetContent方法选择图片
+                            pickImageLauncher.launch("image/*")
                         },
                         modifier = Modifier.size(width = 120.dp, height = 48.dp)
                     ) {
@@ -371,9 +369,8 @@ fun GarbageClassificationApp(classifier: GarbageClassifier, cameraExecutor: Exec
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
                         onClick = {
-                            pickImageLauncher.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                            )
+                            // 使用GetContent方法选择图片
+                            pickImageLauncher.launch("image/*")
                         },
                         modifier = Modifier.size(width = 120.dp, height = 48.dp)
                     ) {
