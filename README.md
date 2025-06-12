@@ -1,6 +1,6 @@
 # 垃圾分类识别应用
 
-这是一个基于TensorFlow Lite的Android垃圾分类应用，可以识别6种不同类型的垃圾：纸板(cardboard)、玻璃(glass)、金属(metal)、纸张(paper)、塑料(plastic)和其他垃圾(trash)。
+这是一个基于TensorFlow Lite的Android垃圾分类应用，可以识别4种不同类型的垃圾：harmful,recycle,kitchen,other。
 
 ## 项目结构
 
@@ -20,13 +20,7 @@
 
 ## 数据集
 
-本项目使用的是Garbage classification数据集，包含6个类别：
-- cardboard (纸板)
-- glass (玻璃)
-- metal (金属)
-- paper (纸张)
-- plastic (塑料)
-- trash (其他垃圾)
+本项目使用的是Garbage classification数据集，包含4个类别：harmful,recycle,kitchen,other。
 
 ## 技术栈
 
