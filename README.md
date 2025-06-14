@@ -7,7 +7,7 @@
 - `garbage_classification_model.ipynb`: 用于训练垃圾分类模型的Jupyter Notebook
 - `app/`: Android应用源代码
   - `src/main/java/com/android/example/finalwork/GarbageClassifier.kt`: TensorFlow Lite模型加载和推理类
-  - `src/main/java/com/android/example/finalwork/MainActivity.kt`: 应用主界面和相机功能
+  - `src/main/java/com/android/example/finalwork/MainActivity.kt`: 应用主界面和相机功能1
 
 ## 功能特点
 
