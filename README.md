@@ -1,4 +1,4 @@
-# 垃圾分类识别应用
+111111# 垃圾分类识别应用
 
 这是一个基于TensorFlow Lite的Android垃圾分类应用，可以识别4种不同类型的垃圾：harmful,recycle,kitchen,other。
 
